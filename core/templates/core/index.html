@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+
+{% block title %}Home - 7LineUP{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Welcome to 7LineUP</h2>
+    <p>Your comprehensive esports team and match management system with a neon-themed interface.</p>
+</div>
+
+<div class="stats">
+    <div class="stat-card">
+        <h3>Total Members</h3>
+        <div class="value">{{ members_count }}</div>
+    </div>
+    <div class="stat-card">
+        <h3>Total Teams</h3>
+        <div class="value">{{ teams_count }}</div>
+    </div>
+    <div class="stat-card">
+        <h3>Total Matches</h3>
+        <div class="value">{{ matches_count }}</div>
+    </div>
+    <div class="stat-card">
+        <h3>Wins</h3>
+        <div class="value">{{ wins }}</div>
+    </div>
+    <div class="stat-card">
+        <h3>Losses</h3>
+        <div class="value">{{ losses }}</div>
+    </div>
+    <div class="stat-card">
+        <h3>Win Rate</h3>
+        <div class="value">{{ win_rate }}%</div>
+    </div>
+</div>
+{% endblock %}

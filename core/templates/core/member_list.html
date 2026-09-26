@@ -1,0 +1,43 @@
+{% extends "core/base.html" %}
+
+{% block title %}Members - 7LineUP{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Members</h2>
+    <div class="actions">
+        <a href="{% url 'member_add' %}" class="btn">Add New Member</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>In-Game Name</th>
+                <th>Role</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+                <tr>
+                    <td>{{ member.id }}</td>
+                    <td>{{ member.name }}</td>
+                    <td>{{ member.ingame }}</td>
+                    <td>{{ member.role }}</td>
+                    <td>{{ member.notes|truncatechars:50 }}</td>
+                    <td class="actions">
+                        <a href="{% url 'member_edit' member.id %}" class="btn btn-outline">Edit</a>
+                        <a href="{% url 'member_delete' member.id %}" class="btn btn-outline btn-danger" onclick="return confirm('Are you sure you want to delete this member?');">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No members found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

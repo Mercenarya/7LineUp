@@ -1,0 +1,42 @@
+{% extends "core/base.html" %}
+
+{% block title %}{% if team %}Edit Team{% else %}Add Team{% endif %} - 7LineUP{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>{% if team %}Edit Team{% else %}Add New Team{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="name">Team Name:</label>
+            <input type="text" id="name" name="name" value="{{ team.name }}" required>
+        </div>
+        <div>
+            <label for="rank">Rank:</label>
+            <input type="text" id="rank" name="rank" value="{{ team.rank }}">
+        </div>
+        <div>
+            <label for="role">Team Role:</label>
+            <input type="text" id="role" name="role" value="{{ team.role }}">
+        </div>
+        <div>
+            <label>Members:</label>
+            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #444; padding: 10px;">
+                {% for m in all_members %}
+                    <div>
+                        <input type="checkbox" id="member_{{ m.id }}" name="members" value="{{ m.id }}"
+                            {% if m.id in selected_ids %}checked{% endif %}>
+                        <label for="member_{{ m.id }}">{{ m.name }}{% if m.ingame %} ({{ m.ingame }}){% endif %}</label>
+                    </div>
+                {% empty %}
+                    <p>Chưa có member nào. <a href="{% url 'member_add' %}">Thêm member</a>.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="actions">
+            <button type="submit" class="btn">{% if team %}Update{% else %}Add{% endif %}</button>
+            <a href="{% url 'team_list' %}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
