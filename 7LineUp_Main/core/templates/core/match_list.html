@@ -1,50 +1,46 @@
 {% extends "core/base.html" %}
 
-{% block title %}Matches - 7LineUP{% endblock %}
+{% block title %}Teams - 7LineUP{% endblock %}
 
 {% block content %}
 <div class="card">
-    <h2>Matches</h2>
+    <h2>Teams</h2>
     <div class="actions">
-        <a href="{% url 'match_add' %}" class="btn">Add New Match</a>
+        <a href="{% url 'team_add' %}" class="btn">Add New Team</a>
     </div>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Opponent</th>
-                <th>Date</th>
-                <th>Rules</th>
-                <th>Result</th>
-                <th>Notes</th>
+                <th>Name</th>
+                <th>Rank</th>
+                <th>Role</th>
+                {% comment %} <th>Members</th> {% endcomment %}
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for match in matches %}
+            {% for team in teams %}
                 <tr>
-                    <td>{{ match.id }}</td>
-                    <td>{{ match.opponent }}</td>
-                    <td>{{ match.match_date|date:"Y-m-d H:i" }}</td>
-                    <td>{{ match.rules }}</td>
-                    <td>
-                        {% if match.win == True %}
-                            <span style="color: var(--neon-green);">Win</span>
-                        {% elif match.win == False %}
-                            <span style="color: #ff0000;">Loss</span>
-                        {% else %}
-                            <span style="color: var(--neon-pink);">Draw</span>
-                        {% endif %}
-                    </td>
-                    <td>{{ match.notes|truncatechars:50 }}</td>
+                    <td data-label="ID">{{ team.id }}</td>
+                    <td data-label="Name">{{ team.name }}</td>
+                    <td data-label="Rank">{{ team.rank }}</td>
+                    <td data-label="Role">{{ team.role }}</td>
+                    {% comment %} <td>
+                        {% for member in team.members.all %}
+                            {{ member.name }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            None
+                        {% endfor %}
+                    </td> {% endcomment %}
                     <td class="actions">
-                        <a href="{% url 'match_edit' match.id %}" class="btn btn-outline">Edit</a>
-                        <a href="{% url 'match_delete' match.id %}" class="btn btn-outline btn-danger" onclick="return confirm('Are you sure you want to delete this match?');">Delete</a>
+                        <a href="{% url 'team_edit' team.id %}" class="btn btn-outline">Edit</a>
+                        <a href="{% url 'team_delete' team.id %}" class="btn btn-outline btn-danger" onclick="return confirm('Are you sure you want to delete this team?');">Delete</a>
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="7">No matches found.</td>
+                    <td colspan="6">No teams found.</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -22,10 +22,10 @@
         <tbody>
             {% for team in teams %}
                 <tr>
-                    <td>{{ team.id }}</td>
-                    <td>{{ team.name }}</td>
-                    <td>{{ team.rank }}</td>
-                    <td>{{ team.role }}</td>
+                    <td data-label="ID">{{ team.id }}</td>
+                    <td data-label="Name">{{ team.name }}</td>
+                    <td data-label="Rank">{{ team.rank }}</td>
+                    <td data-label="Role">{{ team.role }}</td>
                     {% comment %} <td>
                         {% for member in team.members.all %}
                             {{ member.name }}{% if not forloop.last %}, {% endif %}

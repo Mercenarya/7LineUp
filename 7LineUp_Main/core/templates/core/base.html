@@ -221,6 +221,132 @@
             font-weight: bold;
             color: var(--text-light);
         }
+
+        /* ===== Responsive: tablet & below ===== */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 10px;
+            }
+            header h1 {
+                font-size: 1.6rem;
+            }
+            header p {
+                font-size: 0.85rem;
+            }
+            nav {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 8px;
+            }
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            .container {
+                padding: 12px;
+            }
+            .card {
+                padding: 15px;
+            }
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            .stats {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .stat-card {
+                flex: 1 1 calc(50% - 10px);
+                padding: 12px;
+            }
+            .stat-card .value {
+                font-size: 1.5rem;
+            }
+            .actions {
+                flex-wrap: wrap;
+            }
+            form button, .btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+                width: 100%;
+                box-sizing: border-box;
+                text-align: center;
+            }
+            .actions .btn,
+            .actions form,
+            .actions a {
+                flex: 1 1 auto;
+            }
+
+            /* Responsive table -> stacked cards */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            table {
+                border: none;
+            }
+            thead {
+                display: none;
+            }
+            tbody tr {
+                margin-bottom: 15px;
+                border: 1px solid var(--neon-blue);
+                border-radius: 8px;
+                padding: 10px;
+                box-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
+            }
+            tbody tr td {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 8px 5px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                text-align: right;
+            }
+            tbody tr td:last-child {
+                border-bottom: none;
+            }
+            tbody tr td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: var(--neon-blue);
+                text-align: left;
+                flex-shrink: 0;
+            }
+            tbody tr td.actions {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+            tbody tr td.actions::before {
+                display: none;
+            }
+            tbody tr td.actions .btn {
+                width: auto;
+                flex: 1 1 auto;
+            }
+            /* empty-state row (colspan) shouldn't show a label */
+            tbody tr td[colspan]::before {
+                display: none;
+            }
+            tbody tr td[colspan] {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 420px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+            .stat-card {
+                flex: 1 1 100%;
+            }
+            nav a {
+                flex: 1 1 40%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>

@@ -1,37 +1,32 @@
 {% extends "core/base.html" %}
 
-{% block title %}Home - 7LineUP{% endblock %}
+{% block title %}{% if member %}Edit Member{% else %}Add Member{% endif %} - 7LineUP{% endblock %}
 
 {% block content %}
 <div class="card">
-    <h2>Welcome to 7LineUP</h2>
-    <p>Your comprehensive esports team and match management system with a neon-themed interface.</p>
-</div>
-
-<div class="stats">
-    <div class="stat-card">
-        <h3>Total Members</h3>
-        <div class="value">{{ members_count }}</div>
-    </div>
-    <div class="stat-card">
-        <h3>Total Teams</h3>
-        <div class="value">{{ teams_count }}</div>
-    </div>
-    <div class="stat-card">
-        <h3>Total Matches</h3>
-        <div class="value">{{ matches_count }}</div>
-    </div>
-    <div class="stat-card">
-        <h3>Wins</h3>
-        <div class="value">{{ wins }}</div>
-    </div>
-    <div class="stat-card">
-        <h3>Losses</h3>
-        <div class="value">{{ losses }}</div>
-    </div>
-    <div class="stat-card">
-        <h3>Win Rate</h3>
-        <div class="value">{{ win_rate }}%</div>
-    </div>
+    <h2>{% if member %}Edit Member{% else %}Add New Member{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ member.name }}" required>
+        </div>
+        <div>
+            <label for="ingame">In-Game Name:</label>
+            <input type="text" id="ingame" name="ingame" value="{{ member.ingame }}">
+        </div>
+        <div>
+            <label for="role">Role:</label>
+            <input type="text" id="role" name="role" value="{{ member.role }}">
+        </div>
+        <div>
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes">{{ member.notes }}</textarea>
+        </div>
+        <div class="actions">
+            <button type="submit" class="btn">{% if member %}Update{% else %}Add{% endif %}</button>
+            <a href="{% url 'member_list' %}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
 </div>
 {% endblock %}
