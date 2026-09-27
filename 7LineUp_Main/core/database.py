@@ -1,10 +1,20 @@
+import os
 from django.conf import settings
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Table
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-# Get the database URL from Django settings
-DATABASE_URL = f"sqlite:///{settings.DATABASES['default']['NAME']}"
+# Ưu tiên dùng DATABASE_URL từ biến môi trường (Postgres khi host trên Render).
+# Nếu không có biến này (ví dụ khi chạy ở máy local), fallback về SQLite như cũ.
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    # Một số nhà cung cấp (Render/Heroku) trả URL dạng "postgres://",
+    # nhưng SQLAlchemy hiện tại yêu cầu "postgresql://".
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+else:
+    DATABASE_URL = f"sqlite:///{settings.DATABASES['default']['NAME']}"
 
 engine = create_engine(DATABASE_URL, echo=False)
 Session = scoped_session(sessionmaker(bind=engine))
@@ -52,3 +62,7 @@ class Match(Base):
 
     def __repr__(self):
         return f"<Match(id={self.id}, opponent='{self.opponent}', date='{self.match_date}', win={self.win})>"
+
+# Tự động tạo bảng nếu chưa tồn tại (áp dụng cho cả SQLite lẫn Postgres).
+# An toàn khi gọi nhiều lần: nếu bảng đã có sẵn, lệnh này sẽ bỏ qua, không xóa dữ liệu cũ.
+Base.metadata.create_all(engine)
